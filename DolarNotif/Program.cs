@@ -18,7 +18,6 @@ namespace DolarNotif
         public static IConfigurationRoot Configuration { get; set; }
         static async Task MainAsync(string[] args)
         {
-
             #region SettingUpConfig
 
             var builder = new ConfigurationBuilder()
@@ -52,15 +51,15 @@ namespace DolarNotif
                 HtmlDocument document = new HtmlDocument();
                 document.LoadHtml(response);
 
-                var trs = document.QuerySelectorAll(".portlet-boundary_cotizacion_WAR_broutmfportlet_ table tbody tr");
+                var trs = document.QuerySelectorAll(".portlet-boundary_cotizacionfull_WAR_broutmfportlet_ table tbody tr");
                 foreach (var tr in trs)
                 {
                     var tds = tr.QuerySelectorAll("td");
                     if (tds.Count > 0)
                     {
                         var currencyText = tds[0].InnerText.Trim();
-                        var compra = tds[1].InnerText.Trim().Replace(",", ".");
-                        var venta = tds[3].InnerText.Trim().Replace(",", ".");
+                        var compra = tds[2].InnerText.Trim().Replace(",", ".");
+                        var venta = tds[4].InnerText.Trim().Replace(",", ".");
 
                         if (currencyText == "Dólar")
                         {
