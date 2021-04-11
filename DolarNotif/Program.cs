@@ -7,6 +7,7 @@ using MimeKit;
 using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -44,9 +45,9 @@ namespace DolarNotif
 
             var url = Configuration["url"];
 
-            using (var client = new HttpClient())
+            using (var client = new WebClient())
             {
-                var response = await client.GetStringAsync(url);
+                var response = await client.DownloadStringTaskAsync(url);
 
                 HtmlDocument document = new HtmlDocument();
                 document.LoadHtml(response);
@@ -127,7 +128,7 @@ namespace DolarNotif
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
+                    throw;
                 }
             }
 
@@ -137,9 +138,9 @@ namespace DolarNotif
 
 
 
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            MainAsync(args).GetAwaiter().GetResult();
+            await MainAsync(args);
         }
     }
 
